@@ -13,7 +13,7 @@ Building & Using
 3. Edit ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin.exe.config and replace the app setting value [ENTER_LICENSE_KEY] with your NewRelic license key.
 4. Take a copy of queue-agent-config.json.example and give it the name queue-agent-config.json
 5. Edit queue-agent-config.json and add your Windows Azure Storage accounts.
-6.  Execute ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin.exe to start monitoring.
+6. Execute ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin.exe to start monitoring.
 
 
 Install as Windows Service
