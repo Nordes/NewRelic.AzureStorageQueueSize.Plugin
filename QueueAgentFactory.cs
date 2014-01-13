@@ -14,10 +14,24 @@ namespace ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin
         // It will be invoked once per JSON object in the configuration file
         public override Agent CreateAgentWithConfiguration(IDictionary<string, object> properties)
         {
-            var name = (string)properties["name"];
-            var connectionString = (string)properties["connectionString"];
-            
-            return new QueueAgent(name, connectionString);
+            var systemName = (string)properties["systemName"];
+            var storageAccounts = (List<object>) properties["storageAccounts"];
+
+            var typedStorageAccounts = new List<Dictionary<string, string>>();
+
+            foreach (var obj in storageAccounts)
+            {
+                var dic = (Dictionary<string, object>) obj;
+
+                var newDic = new Dictionary<string, string>();
+
+                foreach (var acc in dic)
+                    newDic[acc.Key] = (string) acc.Value;
+
+                typedStorageAccounts.Add(newDic);
+            }
+
+            return new QueueAgent(systemName, typedStorageAccounts);
         }
     }
 }

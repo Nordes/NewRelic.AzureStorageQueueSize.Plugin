@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
@@ -8,16 +10,15 @@ namespace ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin
 {
     public class QueueAgent : Agent
     {
-        public override string Guid { get { return "com.scalablebytes.newrelic.azurestoragequeuesize"; } }
         public override string Version { get { return "1.0.0"; } }
 
-        public string Name;
-        public string ConnectionString;
+        public string SystemName;
+        public List<Dictionary<string, string>> StorageAccounts;
 
-        public QueueAgent(string name, string connectionString)
+        public QueueAgent(string systemName, List<Dictionary<string, string>> accounts)
         {
-            Name = name;
-            ConnectionString = connectionString;
+            SystemName = systemName;
+            StorageAccounts = accounts;
         }
 
         /// <summary>
@@ -26,7 +27,15 @@ namespace ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin
         /// <returns></returns>
         public override string GetAgentName()
         {
-            return Name;
+            return SystemName;
+        }
+
+        public override string Guid
+        {
+            get
+            {
+                return "com.scalablebytes.newrelic.azurestoragequeuesize";
+            }
         }
 
         /// <summary>
@@ -36,42 +45,48 @@ namespace ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin
         /// </summary>
         public override void PollCycle()
         {
-            var storageAccount = CloudStorageAccount.Parse(ConnectionString);
-            var queueClient = storageAccount.CreateCloudQueueClient();
-
-            var continuationToken = new QueueContinuationToken();
-
-            while (continuationToken != null)
+            foreach (var storageAccountInfo in StorageAccounts)
             {
-                var listResponse = queueClient.ListQueuesSegmented(continuationToken);
 
-                // We must ask Azure for the size of each queue individually.
-                // This can be done in parallel.
-                Parallel.ForEach(listResponse.Results, queue =>
-                        {
-                            try
-                            {
-                                queue.FetchAttributes();
-                            }
-                            catch (Exception)
-                            {
-                                // Failed to communicate with Azure Storage, or queue is gone.
-                            }
+                var accountName = storageAccountInfo["accountName"];
+                var connectionString = storageAccountInfo["connectionString"];
 
-                        });
+                var storageAccount = CloudStorageAccount.Parse(connectionString);
+                var queueClient = storageAccount.CreateCloudQueueClient();
 
-                // ReportMetric is not thread-safe, so we can't call it in the parallel
-                foreach (var queue in listResponse.Results)
+                var continuationToken = new QueueContinuationToken();
+
+                while (continuationToken != null)
                 {
-                    string metricName = string.Format("Queues/{0}/size", queue.Name);
-                    int count = queue.ApproximateMessageCount.HasValue ? queue.ApproximateMessageCount.Value : 0;
+                    var listResponse = queueClient.ListQueuesSegmented(continuationToken);
 
-                    ReportMetric(metricName, "messages", count);
+                    // We must ask Azure for the size of each queue individually.
+                    // This can be done in parallel.
+                    Parallel.ForEach(listResponse.Results, queue =>
+                    {
+                        try
+                        {
+                            queue.FetchAttributes();
+                        }
+                        catch (Exception)
+                        {
+                            // Failed to communicate with Azure Storage, or queue is gone.
+                        }
+
+                    });
+
+                    // ReportMetric is not thread-safe, so we can't call it in the parallel
+                    foreach (var queue in listResponse.Results)
+                    {
+                        int count = queue.ApproximateMessageCount.HasValue ? queue.ApproximateMessageCount.Value : 0;
+                        string metricName = string.Format("Queues/{0}/{1}/size", accountName, queue.Name);
+
+                        ReportMetric(metricName, "messages", count);
+                    }
+
+                    continuationToken = listResponse.ContinuationToken;
                 }
-
-                continuationToken = listResponse.ContinuationToken;
             }
-
         }
     }
 }
