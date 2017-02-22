@@ -1,37 +1,37 @@
 ﻿using System.Collections.Generic;
 using NewRelic.Platform.Sdk;
+using Serilog.Core;
 
 namespace ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin
 {
+    /// <summary>
+    /// Azure Storage Queue Agent. It  is an abstract base class that is meant to help facilitate creation of 
+    /// Agents from the well-defined configuration file 'plugin.json'
+    /// </summary>
     public class QueueAgentFactory : AgentFactory
     {
-        public QueueAgentFactory()
-            : base("queue-agent-config.json")
+        private Logger _eventLogLogger;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public QueueAgentFactory(Logger eventLogLogger)
+            : base()
         {
+            _eventLogLogger = eventLogLogger;
         }
 
-        // This will return the deserialized properties from the specified configuration file
-        // It will be invoked once per JSON object in the configuration file
+        /// <summary>
+        /// This will return the deserialized properties from the specified configuration file
+        /// It will be invoked once per JSON object in the configuration file
+        /// </summary>
+        /// <param name="properties"></param>
+        /// <returns></returns>
         public override Agent CreateAgentWithConfiguration(IDictionary<string, object> properties)
         {
-            var systemName = (string)properties["systemName"];
-            var storageAccounts = (List<object>) properties["storageAccounts"];
+            var configuration = Newtonsoft.Json.JsonConvert.DeserializeObject<Models.SystemConfiguration>(Newtonsoft.Json.JsonConvert.SerializeObject(properties));
 
-            var typedStorageAccounts = new List<Dictionary<string, string>>();
-
-            foreach (var obj in storageAccounts)
-            {
-                var dic = (Dictionary<string, object>) obj;
-
-                var newDic = new Dictionary<string, string>();
-
-                foreach (var acc in dic)
-                    newDic[acc.Key] = (string) acc.Value;
-
-                typedStorageAccounts.Add(newDic);
-            }
-
-            return new QueueAgent(systemName, typedStorageAccounts);
+            return new QueueAgent(configuration, _eventLogLogger);
         }
     }
 }
