@@ -6,7 +6,7 @@ Use it to see how the sizes of queues evolve over time.
 * When there's errors contacting NewRelic or Azure Storage Queue, an eventlog is created in Windows EventLogs ournals
 
 # Building & Using
-1. Build the solution ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin.sln using Visual Studio 2013
+1. Build the solution ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin.sln using Visual Studio 2013 or higher (Framework v4.6.1)
 2. Open the folder Bin\Release
 3. Edit and rename `./config/newrelic.template.json` to `./config/newrelic.json` and replace the __[NEW_RELIC_LICENSE_KEY]__ with your NewRelic license key.
 4. Edit and rename `./config/plugin.template.json` to `./config/plugin.json` and add your Windows Azure Storage accounts.
