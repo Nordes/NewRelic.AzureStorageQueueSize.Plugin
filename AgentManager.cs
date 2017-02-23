@@ -4,11 +4,18 @@ using Serilog.Core;
 
 namespace ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin
 {
+    /// <summary>
+    /// NewRelic Agent manager
+    /// </summary>
     class AgentManager
     {
         private Thread _pollThread;
-        private Logger _eventLogLogger;
+        private readonly Logger _eventLogLogger;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AgentManager"/> class.
+        /// </summary>
+        /// <param name="eventLogLogger">The event log logger.</param>
         public AgentManager(Logger eventLogLogger)
         {
             _eventLogLogger = eventLogLogger;
@@ -35,6 +42,9 @@ namespace ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin
             _pollThread.Start();
         }
 
+        /// <summary>
+        /// Stops this instance.
+        /// </summary>
         public void Stop()
         {
             _pollThread.Abort();

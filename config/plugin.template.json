@@ -1,15 +1,17 @@
-﻿{
+{
   "agents": [
     {
       "name": "System name",
       "storageAccounts": [
         {
-          "accountName": "Account name 1",
-          "connectionString": "Full Azure Storage connection string"
-        },
-        {
-          "accountName": "Account name 2",
-          "connectionString": "Full Azure Storage connection string"
+          "name": "Account name A",
+          "connectionString": "Full Azure Storage connection string",
+          "groups": [
+            {
+              "name": "groupName",
+              "regex": "^.*(?<!poison)$" // gi
+            }
+          ]
         }
       ]
     }

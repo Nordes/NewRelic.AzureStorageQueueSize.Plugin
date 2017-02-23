@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AgentManager.cs" />
+    <Compile Include="Models\StorageQueueGroup.cs" />
     <Compile Include="Models\SystemConfiguration.cs" />
     <Compile Include="Models\StorageAccount.cs" />
     <Compile Include="Program.cs" />

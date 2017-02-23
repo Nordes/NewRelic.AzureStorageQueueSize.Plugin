@@ -35,13 +35,16 @@ To install the plug-in as a Windows Service, execute "plugin.exe install". This 
 ```
 
 ### Configuration
-| Plugin.Config                                     | Type   | Description                                            |
-| :------------------------------------------------ |:------:| :------------------------------------------------------|
-| agents                                            | array  | Define the agents that will run in the background      |
-| agents[*0*].name                                  | string | Define the agent name, by example *MyApp-Production*   |
-| agents[*0*].storageAccounts                       | array  | Define the list of storage account you want to pull the statistics |
-| agents[*0*].storageAccounts[*0*].accountName      | string | Define the account name that will be displayed in NewRelic. This is not the official storage account name |
-| agents[*0*].storageAccounts[*0*].connectionString | string | Define the connection string to the azure storage account |
+| Plugin.Config                                      | Type   | Description                                            |
+| :------------------------------------------------- |:------:| :------------------------------------------------------|
+| agents                                             | array  | Define the agents that will run in the background      |
+| agents[*0*].name                                   | string | Define the agent name, by example *MyApp-Production*   |
+| agents[*0*].storageAccounts                        | array  | Define the list of storage account you want to pull the statistics |
+| agents[*0*].storageAccounts[*0*].name              | string | Define the account name that will be displayed in NewRelic. This is not the official storage account name |
+| agents[*0*].storageAccounts[*0*].connectionString  | string | Define the connection string to the azure storage account |
+| agents[*0*].storageAccounts[*0*].groups            | array  | *(Optional)* Define grouping we want to capture         |
+| agents[*0*].storageAccounts[*0*].groups[*0*].name  | string | Gives a name to the group that will be sent to NewRelic |
+| agents[*0*].storageAccounts[*0*].groups[*0*].regex | string | Define the regex to capture the group based on the queue name |
 
 ## ./config/newrelic.json
 ```javascript

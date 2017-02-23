@@ -3,12 +3,19 @@ using Topshelf;
 
 namespace ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin
 {
+    /// <summary>
+    /// Plugin application
+    /// </summary>
     class Program
     {
+        // Should be one static per class
         private static Serilog.Core.Logger _eventLogLogger = new LoggerConfiguration()
                 .WriteTo.EventLog("Test", manageEventSource: true)
                 .CreateLogger();
 
+        /// <summary>
+        /// Defines the entry point of the application.
+        /// </summary>
         public static void Main()
         {
             HostFactory.Run(x =>

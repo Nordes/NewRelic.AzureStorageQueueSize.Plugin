@@ -10,13 +10,12 @@ namespace ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin
     /// </summary>
     public class QueueAgentFactory : AgentFactory
     {
-        private Logger _eventLogLogger;
+        private readonly Logger _eventLogLogger;
 
         /// <summary>
         /// Constructor
         /// </summary>
         public QueueAgentFactory(Logger eventLogLogger)
-            : base()
         {
             _eventLogLogger = eventLogLogger;
         }
@@ -25,10 +24,11 @@ namespace ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin
         /// This will return the deserialized properties from the specified configuration file
         /// It will be invoked once per JSON object in the configuration file
         /// </summary>
-        /// <param name="properties"></param>
-        /// <returns></returns>
+        /// <param name="properties">The properties.</param>
+        /// <returns>The queue agent</returns>
         public override Agent CreateAgentWithConfiguration(IDictionary<string, object> properties)
         {
+            // Trick to have real object to manage.
             var configuration = Newtonsoft.Json.JsonConvert.DeserializeObject<Models.SystemConfiguration>(Newtonsoft.Json.JsonConvert.SerializeObject(properties));
 
             return new QueueAgent(configuration, _eventLogLogger);
