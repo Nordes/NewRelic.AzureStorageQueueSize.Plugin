@@ -8,12 +8,52 @@ Use it to see how the sizes of queues evolve over time.
 # Building & Using
 1. Build the solution ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin.sln using Visual Studio 2013
 2. Open the folder Bin\Release
-3. Edit and rename _./config/newrelic.template.json_ to _./config/newrelic.json_ and replace the __[NEW_RELIC_LICENSE_KEY]__ with your NewRelic license key.
-4. Edit and rename _./config/plugin.template.json_ to _./config/plugin.json_ and add your Windows Azure Storage accounts.
+3. Edit and rename `./config/newrelic.template.json` to `./config/newrelic.json` and replace the __[NEW_RELIC_LICENSE_KEY]__ with your NewRelic license key.
+4. Edit and rename `./config/plugin.template.json` to `./config/plugin.json` and add your Windows Azure Storage accounts.
 5. Execute _plugin.exe_ to start monitoring.
 
 # Install as Windows Service
 To install the plug-in as a Windows Service, execute "plugin.exe install". This will add it was a Windows Service which will start automatically when windows start.
+
+# Example of configuration 
+## ./config/plugin.json
+```javascript
+{
+  // Mandatory root
+  "agents": [
+    // App configuration
+    {
+      "name": "App Production",
+      // Storage(s) configuration
+      "storageAccounts": [
+        {
+          "accountName": "Account name",
+          "connectionString": "DefaultEndpointsProtocol=https;AccountName=app***;AccountKey=d0Wo************;BlobEndpoint=https://app***.blob.core.windows.net/;QueueEndpoint=https://app***.queue.core.windows.net/;TableEndpoint=https://app****.table.core.windows.net/;FileEndpoint=https://app***.file.core.windows.net/;"
+        }
+    }
+}
+```
+
+### Configuration
+| Plugin.Config                                     | Type   | Description                                            |
+| ------------------------------------------------- |:------:| -------------------------------------------------------|
+| agents                                            | array  | Define the agents that will run in the background      |
+| agents[*0*].name                                  | string | Define the agent name, by example `MyApp-Production`   |
+| agents[*0*].storageAccounts                       | array  | Define the list of storage account you want to pull the statistics |
+| agents[*0*].storageAccounts[*0*].accountName      | string | Define the account name that will be displayed in NewRelic. This is not the official storage account name |
+| agents[*0*].storageAccounts[*0*].connectionString | string | Define the connection string to the azure storage account |
+
+## ./config/newrelic.json
+```javascript
+{
+  "license_key": "NEW_RELIC_LICENSE_KEY"
+}
+```
+
+### Configuration
+| Plugin.Config                                     | Type   | Description                                            |
+| ------------------------------------------------- |:------:| -------------------------------------------------------|
+| license_key                                       | string | NewRelic license key (Available from NewRelic site)    |
 
 # Todo's
 * Add an image with new relic graph for Insights and Plugin
