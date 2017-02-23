@@ -27,7 +27,7 @@ To install the plug-in as a Windows Service, execute "plugin.exe install". This 
       // Storage(s) configuration
       "storageAccounts": [
         {
-          "accountName": "Account name",
+          "name": "Account name",
           "connectionString": "DefaultEndpointsProtocol=https;AccountName=app***;AccountKey=d0Wo************;BlobEndpoint=https://app***.blob.core.windows.net/;QueueEndpoint=https://app***.queue.core.windows.net/;TableEndpoint=https://app****.table.core.windows.net/;FileEndpoint=https://app***.file.core.windows.net/;"
         }
     }
