@@ -8,7 +8,14 @@ Use it to see how the sizes of queues evolve over time.
 # NewRelic Plugin Dashboard example
 ![plugin-dashboard](https://cloud.githubusercontent.com/assets/446572/23294952/4ca15e1c-fa6e-11e6-918e-a9d89cd2ab11.png)
 
-# Building & Using
+# Metrics
+The metrics sent to NewRelic are the following
+| Metric format | Description |
+| :------------ | :---------- |
+| Component/Queues/`Account Name from plugin.json`/all/`Queue Name`/size[messages] | All the Azure Storage Queues will be added in the `all` collection |
+| Component/Queues/`Account Name from plugin.json`/`Group Name`/`Queue Name`/size[messages] | Only Queues fulfilling the regex group setting will be added to the `Group Name` collection |
+
+# Building and starting the pluging all by yourself
 1. Build the solution ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin.sln using Visual Studio 2013 or higher (Framework v4.6.1)
 2. Open the folder Bin\Release
 3. Edit and rename `./config/newrelic.template.json` to `./config/newrelic.json` and replace the __[NEW_RELIC_LICENSE_KEY]__ with your NewRelic license key.
@@ -65,4 +72,4 @@ To install the plug-in as a Windows Service, execute `plugin.exe install`. This 
 * Add an image with new relic example on alert
 * Change the GUID of the plugin to have something shorter?
 * Add more content to this file (configuration, etc.)
-* ...
+* Be full NPI (Right now the folder structure does is wrong in order to have a src, dist, ... etc.)
