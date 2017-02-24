@@ -1,9 +1,12 @@
-# NewRelic_AzureQueue_Agent
+# NewRelic AzureQueue Agent
 NewRelic Azure Queue Agent is a NewRelic Plugin which monitors the size of the queues in one or more Windows Azure Storage accounts. 
 Use it to see how the sizes of queues evolve over time.
 
-* The plugin is NPI-compatible.
+* The plugin is NPI-compatible. *(On it's way)*
 * When there's errors contacting NewRelic or Azure Storage Queue, an eventlog is created in Windows EventLogs ournals
+
+# NewRelic Plugin Dashboard example
+![plugin-dashboard](https://cloud.githubusercontent.com/assets/446572/23294952/4ca15e1c-fa6e-11e6-918e-a9d89cd2ab11.png)
 
 # Building & Using
 1. Build the solution ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin.sln using Visual Studio 2013 or higher (Framework v4.6.1)
@@ -59,7 +62,6 @@ To install the plug-in as a Windows Service, execute "plugin.exe install". This 
 | license_key                                       | string | NewRelic license key (Available from NewRelic site)    |
 
 # Todo's
-* Add an image with new relic graph for Insights and Plugin
 * Add an image with new relic example on alert
 * Change the GUID of the plugin to have something shorter?
 * Add more content to this file (configuration, etc.)
