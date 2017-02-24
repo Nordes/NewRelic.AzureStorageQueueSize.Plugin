@@ -10,6 +10,7 @@ Use it to see how the sizes of queues evolve over time.
 
 # Metrics
 The metrics sent to NewRelic are the following
+
 | Metric format | Description |
 | :------------ | :---------- |
 | Component/Queues/`Account Name from plugin.json`/all/`Queue Name`/size[messages] | All the Azure Storage Queues will be added in the `all` collection |
