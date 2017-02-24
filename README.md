@@ -1,5 +1,5 @@
-# NewRelic AzureQueue Agent
-NewRelic Azure Queue Agent is a NewRelic Plugin which monitors the size of the queues in one or more Windows Azure Storage accounts. 
+# NewRelic Azure Storage Queue Agent
+NewRelic Azure Storage Queue Agent is a NewRelic Plugin which monitors the size of the queues in one or more Windows Azure Storage accounts. 
 Use it to see how the sizes of queues evolve over time.
 
 * The plugin is NPI-compatible. *(On it's way)*
@@ -16,7 +16,7 @@ Use it to see how the sizes of queues evolve over time.
 5. Execute _plugin.exe_ to start monitoring.
 
 # Install as Windows Service
-To install the plug-in as a Windows Service, execute "plugin.exe install". This will add it was a Windows Service which will start automatically when windows start.
+To install the plug-in as a Windows Service, execute `plugin.exe install`. This will add it was a Windows Service named _ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin_ which will start automatically when windows start.
 
 # Example of configuration 
 ## ./config/plugin.json
@@ -40,7 +40,7 @@ To install the plug-in as a Windows Service, execute "plugin.exe install". This 
 ### Configuration
 | Plugin.Config                                      | Type   | Description                                            |
 | :------------------------------------------------- |:------:| :------------------------------------------------------|
-| agents                                             | array  | Define the agents that will run in the background      |
+| agents                                             | array  | Define the agents that will run in the background. Could be one per storage account (Description available at https://github.com/newrelic-platform/newrelic_dotnet_sdk) |
 | agents[*0*].name                                   | string | Define the agent name, by example *MyApp-Production*   |
 | agents[*0*].storageAccounts                        | array  | Define the list of storage account you want to pull the statistics |
 | agents[*0*].storageAccounts[*0*].name              | string | Define the account name that will be displayed in NewRelic. This is not the official storage account name |
