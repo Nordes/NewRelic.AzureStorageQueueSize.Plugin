@@ -13,7 +13,7 @@ The metrics sent to NewRelic are the following
 | Metric format | Description |
 | :------------ | :---------- |
 | Component/Queues/`Account Name from plugin.json`/all/`Queue Name`/size[messages] | All the Azure Storage Queues will be added in the `all` collection |
-| Component/Queues/`Account Name from plugin.json`/`Group Name`/`Queue Name`/size[messages] | Only Queues fulfilling the regex group setting will be added to the `Group Name` collection |
+| Component/Queues/`Account Name from plugin.json`/groups/`Group Name`/`Queue Name`/size[messages] | Only Queues fulfilling the regex group setting will be added to the `Group Name` collection |
 
 # Building and starting the pluging all by yourself
 1. Build the solution ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin.sln using Visual Studio 2013 or higher (Framework v4.6.1)
