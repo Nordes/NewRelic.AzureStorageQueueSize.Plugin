@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using NewRelic.Platform.Sdk;
-using Serilog.Core;
+using Serilog;
 
 namespace ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin
 {
@@ -10,12 +10,12 @@ namespace ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin
     /// </summary>
     public class QueueAgentFactory : AgentFactory
     {
-        private readonly Logger _eventLogLogger;
+        private readonly ILogger _eventLogLogger;
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public QueueAgentFactory(Logger eventLogLogger)
+        public QueueAgentFactory(ILogger eventLogLogger)
         {
             _eventLogLogger = eventLogLogger;
         }

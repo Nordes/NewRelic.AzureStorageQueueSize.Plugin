@@ -3,8 +3,8 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
 using NewRelic.Platform.Sdk;
 using ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin.Models;
-using Serilog.Core;
 using System.Linq;
+using Serilog;
 
 namespace ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin
 {
@@ -17,7 +17,7 @@ namespace ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin
     /// </remarks>
     public class QueueAgent : Agent
     {
-        private readonly Logger _eventLogLogger;
+        private readonly ILogger _eventLogLogger;
         private readonly SystemConfiguration _systemConfiguration;
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin
         /// </summary>
         /// <param name="systemConfiguration">The system configuration.</param>
         /// <param name="eventLogLogger">The event log logger.</param>
-        public QueueAgent(SystemConfiguration systemConfiguration, Logger eventLogLogger)
+        public QueueAgent(SystemConfiguration systemConfiguration, ILogger eventLogLogger)
         {
             ValidateAgentConfiguration(systemConfiguration);
 
