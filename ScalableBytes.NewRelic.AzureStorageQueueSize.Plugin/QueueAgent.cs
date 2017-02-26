@@ -1,8 +1,10 @@
-﻿using Microsoft.WindowsAzure.Storage;
+﻿using System;
+using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
 using NewRelic.Platform.Sdk;
 using ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin.Models;
 using Serilog.Core;
+using System.Linq;
 
 namespace ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin
 {
@@ -21,17 +23,20 @@ namespace ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin
         /// <summary>
         /// Plugin Guid
         /// </summary>
-
+        /// <remarks>
+        /// As proposed by NewRelic, if we are in debug we should use a different guid. Since we don't want that
+        /// Guid to be in the App.Config, here's the trick.
+        /// </remarks>
 #if DEBUG
-        public override string Guid { get { return "com.scalablebytes.newrelic.azurestoragequeuesizedev"; } }
+        public override string Guid => "com.scalablebytes.newrelic.azurestoragequeuesizedev";
 #else
-        public override string Guid { get { return "com.scalablebytes.newrelic.azurestoragequeuesize"; } }
+        public override string Guid => "com.scalablebytes.newrelic.azurestoragequeuesize";
 #endif
 
         /// <summary>
         /// Return the assembly version
         /// </summary>
-        public override string Version { get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(3); } }
+        public override string Version => System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(3);
 
         /// <summary>
         /// Queue Agent
@@ -40,8 +45,37 @@ namespace ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin
         /// <param name="eventLogLogger">The event log logger.</param>
         public QueueAgent(SystemConfiguration systemConfiguration, Logger eventLogLogger)
         {
+            ValidateAgentConfiguration(systemConfiguration);
+
             _systemConfiguration = systemConfiguration;
             _eventLogLogger = eventLogLogger;
+        }
+
+        private void ValidateAgentConfiguration(SystemConfiguration systemConfiguration)
+        {
+            if (systemConfiguration == null)
+                throw new ArgumentNullException(nameof(systemConfiguration), "The systemConfiguration must be specified for the agent to initialize");
+            if (string.IsNullOrEmpty(systemConfiguration.Name))
+                throw new ArgumentNullException(nameof(systemConfiguration.Name), "The system name must be specified for the agent to initialize");
+            if (systemConfiguration.StorageAccounts == null || !systemConfiguration.StorageAccounts.Any())
+                throw new ArgumentNullException(nameof(systemConfiguration.StorageAccounts), "The system have no storage accounts set and it must be specified for the agent to initialize");
+            foreach (var storageAccount in systemConfiguration.StorageAccounts)
+            {
+                if (string.IsNullOrEmpty(storageAccount.Name))
+                    throw new ArgumentNullException(nameof(storageAccount.Name), "The name of the storage account must be specified for the agent to initialize");
+                if (string.IsNullOrEmpty(storageAccount.ConnectionString))
+                    throw new ArgumentNullException(nameof(storageAccount.ConnectionString), $"The connectionString of the storage account \"{storageAccount.Name}\" must be specified for the agent to initialize");
+                if (storageAccount.Groups != null)
+                {
+                    foreach (var group in storageAccount.Groups)
+                    {
+                        if (string.IsNullOrEmpty(group.Name))
+                            throw new ArgumentNullException(nameof(group.Name), "The name of the group, if defined, must be specified for the agent to initialize");
+                        if (string.IsNullOrEmpty(group.Regex))
+                            throw new ArgumentNullException(nameof(group.Regex), $"The regex of the group {group.Name} must be specified for the agent to initialize");
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -75,7 +109,6 @@ namespace ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin
         {
             var storageAccount = CloudStorageAccount.Parse(config.ConnectionString);
             var queueClient = storageAccount.CreateCloudQueueClient();
-
             var continuationToken = new QueueContinuationToken();
 
             while (continuationToken != null)
@@ -95,7 +128,7 @@ namespace ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin
                     var approximateMessageCount = queue.ApproximateMessageCount ?? 0;
 
                     // No groups, then just send and continue.
-                    var metricName = string.Format("Queues/{0}/all/{1}/size", config.Name, queue.Name);
+                    var metricName = $"Queues/{config.Name}/all/{queue.Name}/size";
                     ReportMetric(metricName, "messages", approximateMessageCount);
 
                     if (config.Groups != null)
@@ -105,7 +138,7 @@ namespace ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin
                         {
                             if (storageQueueGroup.AllowedInGroup(queue.Name))
                             {
-                                metricName = string.Format("Queues/{0}/groups/{1}/{2}/size", config.Name, storageQueueGroup.Name, queue.Name);
+                                metricName = $"Queues/{config.Name}/groups/{storageQueueGroup.Name}/{queue.Name}/size";
                                 ReportMetric(metricName, "messages", approximateMessageCount);
                             }
                         }
