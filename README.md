@@ -72,6 +72,5 @@ To install the plug-in as a Windows Service, execute `plugin.exe install`. This 
 
 # Todo's
 * Add an image with new relic example on alert
-* Change the GUID of the plugin to have something shorter?
-* Add more content to this file (configuration, etc.)
-* Be full NPI (Right now the folder structure does is wrong in order to have a src, dist, ... etc.)
+* Add the artefact when Master branch build : https://www.appveyor.com/docs/deployment/github/
+* Be full NPI (~~Right now the folder structure does is wrong in order to have a src, dist~~, *to see* etc.)
