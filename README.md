@@ -18,7 +18,7 @@ The metrics sent to NewRelic are the following
 | Component/Queues/`Account Name from plugin.json`/groups/`Group Name`/`Queue Name`/size[messages] | Only Queues fulfilling the regex group setting will be added to the `Group Name` collection |
 
 # Building and starting the pluging all by yourself
-1. Build the solution ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin.sln using Visual Studio 2013 or higher (Framework v4.6.1)
+1. Build the solution `src/ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin.sln` using Visual Studio 2015 or higher (C# 6)
 2. Open the folder Bin\Release
 3. Edit and rename `./config/newrelic.template.json` to `./config/newrelic.json` and replace the __[NEW_RELIC_LICENSE_KEY]__ with your NewRelic license key.
 4. Edit and rename `./config/plugin.template.json` to `./config/plugin.json` and add your Windows Azure Storage accounts.

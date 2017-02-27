@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26206.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin", "ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin\ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin.csproj", "{FD134883-5BBF-4B95-9345-1B521B8D896F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin.Tests", "ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin.Tests\ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin.Tests.csproj", "{336ADEDC-D238-4929-9874-92143E3BA155}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FD134883-5BBF-4B95-9345-1B521B8D896F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD134883-5BBF-4B95-9345-1B521B8D896F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD134883-5BBF-4B95-9345-1B521B8D896F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD134883-5BBF-4B95-9345-1B521B8D896F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{336ADEDC-D238-4929-9874-92143E3BA155}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{336ADEDC-D238-4929-9874-92143E3BA155}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{336ADEDC-D238-4929-9874-92143E3BA155}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{336ADEDC-D238-4929-9874-92143E3BA155}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
