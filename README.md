@@ -1,4 +1,4 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/cvbh3t0775gb6rj8/branch/master?svg=true)](https://ci.appveyor.com/project/Nordes/newrelic-azurestoragequeue-agent/branch/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/cvbh3t0775gb6rj8?svg=true)](https://ci.appveyor.com/project/Nordes/newrelic-azurestoragequeue-agent)
 # NewRelic Azure Storage Queue Agent
 NewRelic Azure Storage Queue Agent is a NewRelic Plugin which monitors the size of the queues in one or more Windows Azure Storage accounts. 
 Use it to see how the sizes of queues evolve over time.
