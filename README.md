@@ -7,6 +7,7 @@ Use it to see how the sizes of queues evolve over time.
 * When there's errors contacting NewRelic or Azure Storage Queue, an eventlog is created in Windows EventLogs ournals
 
 # NewRelic Plugin Dashboard example
+In the example, you will see statistics about queues being filled and consumed with a WebJob (Azure). FYI, the poison queue is where the errors are located.
 ![plugin-dashboard](https://cloud.githubusercontent.com/assets/446572/23294952/4ca15e1c-fa6e-11e6-918e-a9d89cd2ab11.png)
 
 # Metrics
@@ -29,6 +30,7 @@ To install the plug-in as a Windows Service, execute `plugin.exe install`. This 
 
 # Example of configuration 
 **N.B.:** _If you modify the configuration while the service is running, you will need to restart the service_
+
 ## ./config/plugin.json
 ```javascript
 {
