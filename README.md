@@ -28,6 +28,7 @@ The metrics sent to NewRelic are the following
 To install the plug-in as a Windows Service, execute `plugin.exe install`. This will add it was a Windows Service named _ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin_ which will start automatically when windows start.
 
 # Example of configuration 
+**N.B.:** _If you modify the configuration while the service is running, you will need to restart the service_
 ## ./config/plugin.json
 ```javascript
 {

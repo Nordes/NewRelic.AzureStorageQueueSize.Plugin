@@ -20,13 +20,12 @@ namespace ScalableBytes.NewRelic.AzureStorageQueueSize.Plugin
         {
             HostFactory.Run(x =>
             {
-                x.Service<AgentManager>(s =>
+                var svc = x.Service<AgentManager>(s =>
                      {
                          s.ConstructUsing(name => new AgentManager(_eventLogLogger));
                          s.WhenStarted(tc => tc.Start());
                          s.WhenStopped(tc => tc.Stop());
                      });
-
                 x.RunAsLocalSystem();
 
                 x.SetDescription("NewRelic Windows Azure Storage Queue Size plugin");
